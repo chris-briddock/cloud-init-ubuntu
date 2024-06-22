@@ -2,7 +2,7 @@
 
 # Function to display usage information
 usage() {
-    echo "Usage: $0 <OutputLocationForBaseImage> <CloudInitYamlUrl> <ClounInitOutput> <VMName> <RamAmount> <VCPUs> <DiskSize>"
+    echo "Usage: $0 <OutputLocationForBaseImage> <VMName> <RamAmount> <VCPUs> <DiskSize>"
     echo "Example: $0 /path/to/images/ https://example.com/cloud-init.yaml /path/to/your/cloud-init.yaml vmNameHere 4096 2 20G"
 }
 
@@ -15,7 +15,7 @@ fi
 # Assign arguments to variables
 BASE_IMG_DIR="$1"
 CLOUD_INIT_URL="$2"
-CLOUD_INIT_FILE="$3"
+CLOUD_INIT_FILE="cloud-init.yaml"
 VM_NAME="$4"
 RAM="$5"
 VCPUS="$6"
@@ -36,10 +36,6 @@ if [ ! -f "$UBUNTU_IMG" ]; then
 else
     echo "Ubuntu cloud image already exists. Skipping download."
 fi
-
-# Download cloud-init YAML
-echo "Downloading cloud-init YAML..."
-wget "$CLOUD_INIT_URL" -O "$CLOUD_INIT_FILE"
 
 # Resize the image
 echo "Resizing the image..."
