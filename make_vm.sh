@@ -2,24 +2,23 @@
 
 # Function to display usage information
 usage() {
-    echo "Usage: $0 <OutputLocationForBaseImage> <VMName> <RamAmount> <VCPUs> <DiskSize>"
-    echo "Example: $0 /path/to/images/ https://example.com/cloud-init.yaml /path/to/your/cloud-init.yaml vmNameHere 4096 2 20G"
+    echo "Usage: $0 <BaseImageOutputPath> <CloudInitPath> <VMName> <RamAmount> <VCPUs> <DiskSize>"
+    echo "Example: $0 /path/to/image/ /path/to/your/cloud-init.yaml vmNameHere 4096 2 20G"
 }
 
 # Check if all required arguments are provided
-if [ "$#" -ne 7 ]; then
+if [ "$#" -ne 6 ]; then
     usage
     exit 1
 fi
 
 # Assign arguments to variables
 BASE_IMG_DIR="$1"
-CLOUD_INIT_URL="$2"
-CLOUD_INIT_FILE="cloud-init.yaml"
-VM_NAME="$4"
-RAM="$5"
-VCPUS="$6"
-DISK_SIZE="$7"
+CLOUD_INIT_FILE="$2"
+VM_NAME="$3"
+RAM="$4"
+VCPUS="$5"
+DISK_SIZE="$6"
 
 # Ensure required directories exist
 mkdir -p "$BASE_IMG_DIR"
