@@ -2,15 +2,16 @@
 
 # Check if all required arguments are provided
 if [ "$#" -ne 4 ]; then
-    echo "Usage: $0 <hostname> <username> <devOpsUrl> <token>"
+    echo "Usage: $0 <hostname> <username> <sshPublicKey> <devOpsUrl> <token>"
     exit 1
 fi
 
 # Assign arguments to variables
 hostname=$1
 username=$2
-devOpsUrl=$3
-token=$4
+sshPubKey=$3
+devOpsUrl=$4
+token=$5
 
 # Read the template file
 template_file="cloud-init-template.yaml"
@@ -25,6 +26,7 @@ output_file="cloud-init.yaml"
 # Replace the placeholders with the provided values
 sed -e "s/{hostname}/$hostname/g" \
     -e "s/{username}/$username/g" \
+    -e "s/{sshPubKey}/$sshPubKey/g" \
     -e "s|{devOpsUrl}|$devOpsUrl|g" \
     -e "s/{token}/$token/g" \
     "$template_file" > "$output_file"

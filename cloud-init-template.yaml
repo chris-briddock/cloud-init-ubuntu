@@ -11,12 +11,12 @@ users:
     groups: users, admin
     shell: /bin/bash
     ssh_authorized_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCbxH1nSRazih+WI9YOqbjAuIlwz1dKVx/aeSZq09VE7HPy0l3vMPvmiiLqItW8dLxokRG8I+xGv8b4Du0EpIsgnKaYdT1u/1DiSZjXRJbIZkg2p3Pnxagr2NPy3S3xjiN+69Qk/qkEBAbqS8dVf4007Uj/5VlWcRgHbUlXTfQJtgNhPsWWMo9ENCvxh9CBkq03Dwzwp/Hw1DQMpPjzl9wJaPNlDPREs3TIehMaoCXjIbVNCX4ReX/UavM14iQagDzNmZsTAtSmGcHTH7I1rW8MCXeiQjc8L2jJu5qJlk7XtdA7VDmza/oWweytLDTpkl03mitiQtboGe0dNqbZQqE3xzfmYNJSXGsiLn3KaKv4sKu68XLOUmK/80W10M3YmNUVEwcqjR3POR7Sy1AkSti+Yzl7dEPDtQNTbx3DEGRtIMoJgMkWxFAxGHgaZzUVWvoZjhKa3jkewCqOrHgDRUuqm9kjH10ZCvrVdnMXEAL1kA/85gWVZe039/Id/8g/J3mt6ucuRmmcNJrWLGtavC89FuigaePJiGL7Zt3ApbtWMiCUgS8aboQz0y0RLRUtXaJqizYnJvQB2GGx3W8qFPSqnAqsUS582b6YrMUuwQ5U+ktZ0jP3LFEdYG5uT4Y8F+aa5sehb0bqH8cNnBQ/k70MZr77xp+JlDqxV2vGeM72/w==
+      - {sshPubKey}
 
 runcmd:
-  # install deps
+  # Install dependencies
   - sudo apt install libicu74 jq curl wget git apt-transport-https ca-certificates gnupg lsb-release libssl3 libssl-dev openssl
-  # install docker
+  # Install docker
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
   - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   - sudo apt-get update
@@ -29,7 +29,7 @@ runcmd:
   - newgrp docker
   - sudo systemctl enable docker.service
   - sudo systemctl enable containerd.service
-  # 
+  # Install Azure DevOps Agent
   - mkdir /home/{username}/azagent && cd /home/{username}/azagent
   - sudo curl -O https://vstsagentpackage.azureedge.net/agent/3.240.1/vsts-agent-linux-x64-3.240.1.tar.gz
   - sudo tar zxvf vsts-agent-linux-x64-3.240.1.tar.gz
