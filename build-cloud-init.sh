@@ -26,7 +26,7 @@ output_file="cloud-init.yaml"
 # Replace the placeholders with the provided values
 sed -e "s/{hostname}/$hostname/g" \
     -e "s/{username}/$username/g" \
-    -e "s/{sshPubKey}/$sshPubKey/g" \
+    -e "s|{sshPubKey}|$sshPubKey|g" \
     -e "s|{devOpsUrl}|$devOpsUrl|g" \
     -e "s/{token}/$token/g" \
     "$template_file" > "$output_file"
