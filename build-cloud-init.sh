@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check if all required arguments are provided
-if [ "$#" -ne 4 ]; then
+if [ "$#" -ne 5 ]; then
     echo "Usage: $0 <hostname> <username> <sshPublicKey> <devOpsUrl> <token>"
     exit 1
 fi
