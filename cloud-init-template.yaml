@@ -15,17 +15,18 @@ users:
 
 runcmd:
   # Install dependencies
-  - sudo apt install libicu74 jq curl wget git apt-transport-https ca-certificates gnupg lsb-release libssl3 libssl-dev openssl
+  - sudo apt-get update
+  - sudo apt-get install -y libicu74 jq curl wget git apt-transport-https ca-certificates gnupg lsb-release libssl3 libssl-dev openssl
   # Install docker
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
   - echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   - sudo apt-get update
   - sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-  - sudo usermod -aG docker agent
+  - sudo usermod -aG docker {username}
   - sudo systemctl enable docker
   - sudo systemctl start docker
   - sudo groupadd docker
-  - sudo usermod -aG docker
+  - sudo usermod -aG docker {username}
   - newgrp docker
   - sudo systemctl enable docker.service
   - sudo systemctl enable containerd.service
@@ -36,6 +37,3 @@ runcmd:
   - sudo -u {username} bash config.sh --unattended --url {devOpsUrl} --auth pat --token {token} --pool default
   - sudo bash svc.sh install
   - sudo bash svc.sh start
-  - sudo systemctl enable docker
-  - sudo systemctl start docker
-  - sudo usermod -aG docker {username}
