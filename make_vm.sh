@@ -23,9 +23,30 @@ DISK_SIZE="$6"
 # Ensure required directories exist
 mkdir -p "$BASE_IMG_DIR"
 
-# Install required packages
-echo "Installing required packages..."
-sudo apt update && sudo apt install -y cloud-image-utils qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst
+# Check required dependencies are installed (distro-agnostic).
+# Dependencies are assumed to already be installed by the user via their
+# distro's package manager; this just verifies they're on the PATH.
+check_dependency() {
+    local cmd="$1"
+    local pkg_hint="$2"
+    if ! which "$cmd" > /dev/null 2>&1; then
+        echo "Missing dependency: '$cmd' (typically provided by: $pkg_hint)"
+        MISSING=1
+    fi
+}
+
+echo "Checking required dependencies..."
+MISSING=0
+check_dependency "qemu-img"      "qemu-utils / qemu-kvm / qemu-img"
+check_dependency "cloud-localds" "cloud-image-utils / cloud-utils"
+check_dependency "virt-install"  "virtinst / virt-install"
+check_dependency "virsh"         "libvirt-clients / libvirt-client"
+
+if [ "$MISSING" -eq 1 ]; then
+    echo "One or more required dependencies are missing. Please install them using your distro's package manager and re-run this script."
+    exit 1
+fi
+echo "All required dependencies found."
 
 # Download Ubuntu cloud image
 UBUNTU_IMG="$BASE_IMG_DIR/ubuntu-24.04-server-cloudimg-amd64.img"
